@@ -1,0 +1,327 @@
+# =============================================================================
+# tmux-which-key Configuration
+# =============================================================================
+# Location: ~/.config/tmux/plugins/tmux-which-key/config.yaml
+# Or: ~/.tmux/plugins/tmux-which-key/config.yaml (auto-loaded)
+# =============================================================================
+
+# Command aliases for cleaner yaml
+command_alias:
+  - id: display
+    command: display-message
+
+# Root menu (shown on prefix + ?)
+root_menu:
+  name: "tmux commands"
+  items:
+    # -------------------------------------------------------------------------
+    # Window management
+    # -------------------------------------------------------------------------
+    - name: "Windows..."
+      key: "w"
+      submenu:
+        name: "windows"
+        items:
+          - name: "new window"
+            key: "c"
+            command: "new-window -c '#{pane_current_path}'"
+          - name: "next window"
+            key: "n"
+            command: "next-window"
+          - name: "previous window"
+            key: "p"
+            command: "previous-window"
+          - name: "last window"
+            key: "l"
+            command: "last-window"
+          - name: "choose window"
+            key: "w"
+            command: "choose-tree -Zw"
+          - name: "rename window"
+            key: "r"
+            command: "command-prompt -I '#W' 'rename-window %%'"
+          - name: "kill window"
+            key: "x"
+            command: "confirm-before -p 'kill window? (y/n)' kill-window"
+          - name: "swap left"
+            key: "H"
+            command: "swap-window -t -1; select-window -t -1"
+          - name: "swap right"
+            key: "L"
+            command: "swap-window -t +1; select-window -t +1"
+
+    # -------------------------------------------------------------------------
+    # Pane management
+    # -------------------------------------------------------------------------
+    - name: "Panes..."
+      key: "p"
+      submenu:
+        name: "panes"
+        items:
+          - name: "split horizontal"
+            key: "-"
+            command: "split-window -v -c '#{pane_current_path}'"
+          - name: "split vertical"
+            key: "|"
+            command: "split-window -h -c '#{pane_current_path}'"
+          - name: "zoom toggle"
+            key: "z"
+            command: "resize-pane -Z"
+          - name: "select left"
+            key: "h"
+            command: "select-pane -L"
+          - name: "select down"
+            key: "j"
+            command: "select-pane -D"
+          - name: "select up"
+            key: "k"
+            command: "select-pane -U"
+          - name: "select right"
+            key: "l"
+            command: "select-pane -R"
+          - name: "last pane"
+            key: ";"
+            command: "last-pane"
+          - name: "mark pane"
+            key: "m"
+            command: "select-pane -m"
+          - name: "swap with marked"
+            key: "M"
+            command: "swap-pane"
+          - name: "break to window"
+            key: "!"
+            command: "break-pane"
+          - name: "join from..."
+            key: "@"
+            command: "command-prompt -p 'join from:' 'join-pane -s %%'"
+          - name: "rotate"
+            key: "o"
+            command: "rotate-window"
+          - name: "sync panes toggle"
+            key: "s"
+            command: "setw synchronize-panes; display 'Sync: #{?pane_synchronized,ON,OFF}'"
+          - name: "layouts..."
+            key: "L"
+            submenu:
+              name: "layouts"
+              items:
+                - name: "even-horizontal"
+                  key: "1"
+                  command: "select-layout even-horizontal"
+                - name: "even-vertical"
+                  key: "2"
+                  command: "select-layout even-vertical"
+                - name: "main-horizontal"
+                  key: "3"
+                  command: "select-layout main-horizontal"
+                - name: "main-vertical"
+                  key: "4"
+                  command: "select-layout main-vertical"
+                - name: "tiled"
+                  key: "5"
+                  command: "select-layout tiled"
+                - name: "next layout"
+                  key: "n"
+                  command: "next-layout"
+
+    # -------------------------------------------------------------------------
+    # Session management
+    # -------------------------------------------------------------------------
+    - name: "Sessions..."
+      key: "s"
+      submenu:
+        name: "sessions"
+        items:
+          - name: "new session"
+            key: "n"
+            command: "command-prompt -p 'session name:' 'new-session -s %%'"
+          - name: "choose session"
+            key: "s"
+            command: "choose-tree -Zs"
+          - name: "rename session"
+            key: "r"
+            command: "command-prompt -I '#S' 'rename-session %%'"
+          - name: "kill session"
+            key: "x"
+            command: "confirm-before -p 'kill session #S? (y/n)' kill-session"
+          - name: "detach"
+            key: "d"
+            command: "detach-client"
+          - name: "detach others"
+            key: "D"
+            command: "detach-client -a"
+          - name: "next session"
+            key: "]"
+            command: "switch-client -n"
+          - name: "previous session"
+            key: "["
+            command: "switch-client -p"
+          - name: "last session"
+            key: "l"
+            command: "switch-client -l"
+
+    # -------------------------------------------------------------------------
+    # Copy mode
+    # -------------------------------------------------------------------------
+    - name: "Copy/Paste..."
+      key: "y"
+      submenu:
+        name: "copy"
+        items:
+          - name: "enter copy mode"
+            key: "v"
+            command: "copy-mode"
+          - name: "paste"
+            key: "p"
+            command: "paste-buffer"
+          - name: "choose buffer"
+            key: "P"
+            command: "choose-buffer"
+          - name: "list buffers"
+            key: "l"
+            command: "list-buffers"
+          - name: "delete buffer"
+            key: "d"
+            command: "delete-buffer"
+          - name: "tmux-fingers"
+            key: "f"
+            command: "run-shell '~/.tmux/plugins/tmux-fingers/scripts/tmux-fingers.sh'"
+
+    # -------------------------------------------------------------------------
+    # Resize
+    # -------------------------------------------------------------------------
+    - name: "Resize..."
+      key: "r"
+      submenu:
+        name: "resize"
+        items:
+          - name: "←  shrink left"
+            key: "h"
+            command: "resize-pane -L 5"
+          - name: "↓  shrink down"
+            key: "j"
+            command: "resize-pane -D 5"
+          - name: "↑  expand up"
+            key: "k"
+            command: "resize-pane -U 5"
+          - name: "→  expand right"
+            key: "l"
+            command: "resize-pane -R 5"
+          - name: "←← big shrink"
+            key: "H"
+            command: "resize-pane -L 20"
+          - name: "↓↓ big shrink"
+            key: "J"
+            command: "resize-pane -D 20"
+          - name: "↑↑ big expand"
+            key: "K"
+            command: "resize-pane -U 20"
+          - name: "→→ big expand"
+            key: "L"
+            command: "resize-pane -R 20"
+
+    # -------------------------------------------------------------------------
+    # FZF Tools
+    # -------------------------------------------------------------------------
+    - name: "FZF find..."
+      key: "f"
+      command: "run-shell -b '~/.tmux/plugins/tmux-fzf/main.sh'"
+
+    # -------------------------------------------------------------------------
+    # Logging
+    # -------------------------------------------------------------------------
+    - name: "Logging..."
+      key: "l"
+      submenu:
+        name: "logging"
+        items:
+          - name: "toggle logging"
+            key: "l"
+            command: "run-shell '~/.tmux/plugins/tmux-logging/scripts/toggle_logging.sh'"
+          - name: "screen capture"
+            key: "s"
+            command: "run-shell '~/.tmux/plugins/tmux-logging/scripts/screen_capture.sh'"
+          - name: "save history"
+            key: "h"
+            command: "run-shell '~/.tmux/plugins/tmux-logging/scripts/save_complete_history.sh'"
+          - name: "clear history"
+            key: "c"
+            command: "send-keys -R; clear-history; display 'Cleared'"
+          - name: "summarize session..."
+            key: "S"
+            command: "run-shell '~/.local/bin/tmux-summarize'"
+
+    # -------------------------------------------------------------------------
+    # Utilities
+    # -------------------------------------------------------------------------
+    - name: "Utils..."
+      key: "u"
+      submenu:
+        name: "utilities"
+        items:
+          - name: "toggle status bar"
+            key: "b"
+            command: "set status"
+          - name: "toggle mouse"
+            key: "m"
+            command: "set mouse; display 'Mouse: #{?mouse,ON,OFF}'"
+          - name: "clock"
+            key: "t"
+            command: "clock-mode"
+          - name: "show messages"
+            key: "~"
+            command: "show-messages"
+          - name: "list keys"
+            key: "?"
+            command: "list-keys"
+          - name: "man tmux"
+            key: "M"
+            command: "split-window -h 'man tmux'"
+
+    # -------------------------------------------------------------------------
+    # Config
+    # -------------------------------------------------------------------------
+    - name: "Config..."
+      key: "c"
+      submenu:
+        name: "config"
+        items:
+          - name: "reload config"
+            key: "r"
+            command: "source-file ~/.tmux.conf; display 'Reloaded'"
+          - name: "edit config"
+            key: "e"
+            command: "new-window -n 'tmux.conf' 'nvim ~/.tmux.conf'"
+          - name: "edit which-key"
+            key: "w"
+            command: "new-window -n 'which-key' 'nvim ~/.config/tmux/which-key.yaml'"
+          - name: "install plugins"
+            key: "I"
+            command: "run-shell '~/.tmux/plugins/tpm/bin/install_plugins'"
+          - name: "update plugins"
+            key: "U"
+            command: "run-shell '~/.tmux/plugins/tpm/bin/update_plugins'"
+          - name: "clean plugins"
+            key: "C"
+            command: "run-shell '~/.tmux/plugins/tpm/bin/clean_plugins'"
+
+    # -------------------------------------------------------------------------
+    # Nested Session Toggle
+    # -------------------------------------------------------------------------
+    - name: "+Nested mode (F12)"
+      key: "F12"
+      command: "set prefix None; set prefix2 None; set key-table off; refresh-client -S"
+
+    # -------------------------------------------------------------------------
+    # Quick access
+    # -------------------------------------------------------------------------
+    - separator: true
+    - name: "zoom pane"
+      key: "z"
+      command: "resize-pane -Z"
+    - name: "last pane"
+      key: "Tab"
+      command: "last-pane"
+    - name: "last window"
+      key: "`"
+      command: "last-window"
